@@ -445,6 +445,24 @@ class Uc(object):
             raise UcError(status)
         h = 0
 
+def _reg_wrapper(index):
+    """Creates a read/write property for a register."""
+    def _reg_read_wrapper(self):
+        return self.reg_read(index)
+
+    def _reg_write_wrapper(self, value):
+        return Uc.reg_write(self, index, value)
+
+    return property(_reg_read_wrapper, _reg_write_wrapper)
+
+# Wrapper methods for reading and writing each register.
+for _name in dir(x86_const):
+    if not _name.startswith("UC_X86_REG_") and \
+            _name != "UC_X86_REG_INVALID":
+        continue
+
+    setattr(Uc, _name.replace("UC_X86_REG_", "").lower(),
+            _reg_wrapper(getattr(x86_const, _name)))
 
 # print out debugging info
 def debug():
