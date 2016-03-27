@@ -588,6 +588,12 @@ uc_err uc_mem_protect(uc_engine *uc, uint64_t address, size_t size, uint32_t per
 UNICORN_EXPORT
 uc_err uc_mem_regions(uc_engine *uc, uc_mem_region **regions, uint32_t *count);
 
+/*
+ Retrieve the amount of executed instructions
+*/
+UNICORN_EXPORT
+uc_err uc_emu_counted(uc_engine *uc, uint64_t *count);
+
 #ifdef __cplusplus
 }
 #endif

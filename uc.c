@@ -1108,3 +1108,10 @@ uc_err uc_query(uc_engine *uc, uc_query_type type, size_t *result)
 
     return UC_ERR_OK;
 }
+
+UNICORN_EXPORT
+uc_err uc_emu_counted(uc_engine *uc, uint64_t *count)
+{
+    *count = uc->emu_counter;
+    return UC_ERR_OK;
+}
