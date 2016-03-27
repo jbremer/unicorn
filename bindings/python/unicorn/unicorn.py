@@ -294,6 +294,40 @@ class Uc(object):
         if status != uc.UC_ERR_OK:
             raise UcError(status)
 
+    # export the register state (currently only supported for x86)
+    def regs_export(self):
+        assert self._arch == uc.UC_ARCH_X86
+
+        if self._mode == uc.UC_MODE_32:
+            return (
+                self.eax, self.ebx, self.ecx, self.edx,
+                self.esp, self.ebp, self.esi, self.edi,
+                self.eip,
+            )
+        else:
+            return (
+                self.rax, self.rbx, self.rcx, self.rdx,
+                self.rsp, self.rbp, self.rsi, self.rdi,
+                self.r8, self.r9, self.r10, self.r11,
+                self.r12, self.r13, self.r14, self.r15,
+                self.rip,
+            )
+
+    # import the register state (currently only supported for x86)
+    def regs_import(self, regs):
+        assert self._arch == uc.UC_ARCH_X86
+
+        if self._mode == uc.UC_MODE_32:
+            (self.eax, self.ebx, self.ecx, self.edx,
+             self.esp, self.ebp, self.esi, self.edi,
+             self.eip) = regs
+        else:
+            (self.rax, self.rbx, self.rcx, self.rdx,
+             self.rsp, self.rbp, self.rsi, self.rdi,
+             self.r8, self.r9, self.r10, self.r11,
+             self.r12, self.r13, self.r14, self.r15,
+             self.rip) = regs
+
     # read data from memory
     def mem_read(self, address, size):
         data = ctypes.create_string_buffer(size)
