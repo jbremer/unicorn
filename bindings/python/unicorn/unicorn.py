@@ -302,7 +302,7 @@ class Uc(object):
             return (
                 self.eax, self.ebx, self.ecx, self.edx,
                 self.esp, self.ebp, self.esi, self.edi,
-                self.eip,
+                self.eip, self.eflags,
             )
         else:
             return (
@@ -310,7 +310,7 @@ class Uc(object):
                 self.rsp, self.rbp, self.rsi, self.rdi,
                 self.r8, self.r9, self.r10, self.r11,
                 self.r12, self.r13, self.r14, self.r15,
-                self.rip,
+                self.rip, self.eflags,
             )
 
     # import the register state (currently only supported for x86)
@@ -320,13 +320,13 @@ class Uc(object):
         if self._mode == uc.UC_MODE_32:
             (self.eax, self.ebx, self.ecx, self.edx,
              self.esp, self.ebp, self.esi, self.edi,
-             self.eip) = regs
+             self.eip, self.eflags) = regs
         else:
             (self.rax, self.rbx, self.rcx, self.rdx,
              self.rsp, self.rbp, self.rsi, self.rdi,
              self.r8, self.r9, self.r10, self.r11,
              self.r12, self.r13, self.r14, self.r15,
-             self.rip) = regs
+             self.rip, self.eflags) = regs
 
     # read data from memory
     def mem_read(self, address, size):
